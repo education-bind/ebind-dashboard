@@ -18,7 +18,7 @@ Coded by www.creative-tim.com
   You can add a new route, customize the routes and delete the routes here.
 
   Once you add a new route on this file it will be visible automatically on
-  the Sidenav.
+  the Sidenav unless you add a display to false property.
 
   For adding a new route you can follow the existing routes in the routes array.
   1. The `type` key with the `collapse` value is used for a route.
@@ -33,13 +33,18 @@ Coded by www.creative-tim.com
   9. The `href` key is used to store the external links location.
   10. The `title` key is only for the item with the type of `title` and its used for the title text on the Sidenav.
   10. The `component` key is used to store the component of its route.
+  10. The `protect` key is used for protected routes.
 */
 
 //layouts
 import Home from "layouts/analytics/home";
+import SchoolList from "layouts/features/schools/school-list";
+import SchoolDetails from "layouts/features/schools/school-details";
 import ProfileOverview from "layouts/pages/profile/profile-overview";
 import Settings from "layouts/pages/account/settings";
-import SignInBasic from "layouts/authentication/sign-in/basic";
+import SignInBasic from "layouts/authentication/sign-in";
+import ResetCover from "layouts/authentication/reset-password/cover";
+import useAuth from "./hooks/useAuth";
 
 //TS components
 import MDAvatar from "components/MDAvatar";
@@ -47,223 +52,112 @@ import MDAvatar from "components/MDAvatar";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
-// Images
-import profilePicture from "assets/images/team-3.jpg";
+const routes = () => {
+  const { auth } = useAuth();
 
-const routes = [
-  {
-    type: "collapse",
-    name: "Uwambaje Eddy",
-    key: "uwambaje-eddy",
-    icon: <MDAvatar src={profilePicture} alt="Uwambaje Eddy" size="sm" />,
-    collapse: [
-      {
-        name: "My Profile",
-        key: "my-profile",
-        route: "/pages/profile/profile-overview",
-        component: <ProfileOverview />,
-      },
-      {
-        name: "Settings",
-        key: "profile-settings",
-        route: "/pages/account/settings",
-        component: <Settings />,
-      },
-      {
-        name: "Logout",
-        key: "logout",
-        route: "/authentication/sign-in/basic",
-        component: <SignInBasic />,
-      },
-    ],
-  },
-  { type: "divider", key: "divider-0" },
-  {
-    type: "collapse",
-    name: "Analytics",
-    key: "Analytics",
-    icon: <Icon fontSize="medium">analytics</Icon>,
-    collapse: [
-      {
-        name: "Home",
-        key: "home",
-        route: "/analytics/home",
-        component: <Home />,
-      },
-    ],
-  },
-  { type: "title", title: "Features", key: "title-features" },
-  // {
-  //   type: "collapse",
-  //   name: "SIS",
-  //   key: "sis",
-  //   icon: <Icon fontSize="medium">image</Icon>,
-  //   collapse: [
-  //     {
-  //       name: "Profile",
-  //       key: "profile",
-  //       collapse: [
-  //         {
-  //           name: "Profile Overview",
-  //           key: "profile-overview",
-  //           route: "/pages/profile/profile-overview",
-  //           component: <ProfileOverview />,
-  //         },
-  //         {
-  //           name: "All Projects",
-  //           key: "all-projects",
-  //           route: "/pages/profile/all-projects",
-  //           component: <AllProjects />,
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       name: "Users",
-  //       key: "users",
-  //       collapse: [
-  //         {
-  //           name: "New User",
-  //           key: "new-user",
-  //           route: "/pages/users/new-user",
-  //           component: <NewUser />,
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       name: "Account",
-  //       key: "account",
-  //       collapse: [
-  //         {
-  //           name: "Settings",
-  //           key: "settings",
-  //           route: "/pages/account/settings",
-  //           component: <Settings />,
-  //         },
-  //         {
-  //           name: "Billing",
-  //           key: "billing",
-  //           route: "/pages/account/billing",
-  //           component: <Billing />,
-  //         },
-  //         {
-  //           name: "Invoice",
-  //           key: "invoice",
-  //           route: "/pages/account/invoice",
-  //           component: <Invoice />,
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       name: "Projects",
-  //       key: "projects",
-  //       collapse: [
-  //         {
-  //           name: "Timeline",
-  //           key: "timeline",
-  //           route: "/pages/projects/timeline",
-  //           component: <Timeline />,
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       name: "Pricing Page",
-  //       key: "pricing-page",
-  //       route: "/pages/pricing-page",
-  //       component: <PricingPage />,
-  //     },
-  //     { name: "RTL", key: "rtl", route: "/pages/rtl", component: <RTL /> },
-  //     { name: "Widgets", key: "widgets", route: "/pages/widgets", component: <Widgets /> },
-  //     { name: "Charts", key: "charts", route: "/pages/charts", component: <Charts /> },
-  //     {
-  //       name: "Notfications",
-  //       key: "notifications",
-  //       route: "/pages/notifications",
-  //       component: <Notifications />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Community",
-  //   key: "community",
-  //   icon: <Icon fontSize="medium">apps</Icon>,
-  //   collapse: [
-  //     {
-  //       name: "Kanban",
-  //       key: "kanban",
-  //       route: "/applications/kanban",
-  //       component: <Kanban />,
-  //     },
-  //     {
-  //       name: "Wizard",
-  //       key: "wizard",
-  //       route: "/applications/wizard",
-  //       component: <Wizard />,
-  //     },
-  //     {
-  //       name: "Data Tables",
-  //       key: "data-tables",
-  //       route: "/applications/data-tables",
-  //       component: <DataTables />,
-  //     },
-  //     {
-  //       name: "Calendar",
-  //       key: "calendar",
-  //       route: "/applications/calendar",
-  //       component: <Calendar />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "E-Learning",
-  //   key: "elearning",
-  //   icon: <Icon fontSize="medium">shopping_basket</Icon>,
-  //   collapse: [
-  //     {
-  //       name: "Products",
-  //       key: "products",
-  //       collapse: [
-  //         {
-  //           name: "New Product",
-  //           key: "new-product",
-  //           route: "/ecommerce/products/new-product",
-  //           component: <NewProduct />,
-  //         },
-  //         {
-  //           name: "Edit Product",
-  //           key: "edit-product",
-  //           route: "/ecommerce/products/edit-product",
-  //           component: <EditProduct />,
-  //         },
-  //         {
-  //           name: "Product Page",
-  //           key: "product-page",
-  //           route: "/ecommerce/products/product-page",
-  //           component: <ProductPage />,
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       name: "Orders",
-  //       key: "orders",
-  //       collapse: [
-  //         {
-  //           name: "Order List",
-  //           key: "order-list",
-  //           route: "/ecommerce/orders/order-list",
-  //           component: <OrderList />,
-  //         },
-  //         {
-  //           name: "Order Details",
-  //           key: "order-details",
-  //           route: "/ecommerce/orders/order-details",
-  //           component: <OrderDetails />,
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
-];
-
+  return [
+    {
+      type: "collapse",
+      name: `${auth?.user?.firstName} ${auth?.user?.lastName}`,
+      key: `${auth?.user?.firstName}-${auth?.user?.lastName}`,
+      icon: (
+        <MDAvatar
+          src={`${auth?.user?.profileImage} `}
+          alt={`${auth?.user?.firstName} ${auth?.user?.lastName}`}
+          size="sm"
+        />
+      ),
+      collapse: [
+        {
+          protect: true,
+          name: "My Profile",
+          key: "my-profile",
+          route: "/profile/profile-overview",
+          component: <ProfileOverview />,
+        },
+        {
+          protect: true,
+          name: "Settings",
+          key: "profile-settings",
+          route: "/account/settings",
+          component: <Settings />,
+        },
+      ],
+    },
+    { type: "divider", key: "divider-0" },
+    {
+      type: "collapse",
+      name: "Analytics",
+      key: "Analytics",
+      icon: <Icon fontSize="medium">analytics</Icon>,
+      collapse: [
+        {
+          protect: true,
+          name: "Home",
+          key: "home",
+          route: "/analytics/home",
+          component: <Home />,
+        },
+      ],
+    },
+    { type: "title", title: "Features", key: "title-features" },
+    {
+      type: "collapse",
+      name: "SIS",
+      key: "sis",
+      icon: <Icon fontSize="medium">analytics</Icon>,
+      collapse: [
+        {
+          protect: true,
+          name: "Schools",
+          key: "schools",
+          route: "/sis/schools",
+          component: <SchoolList />,
+        },
+      ],
+    },
+    { type: "divider", key: "divider-1" },
+    // TODO:all routes that doesn't need to be displayed on the sidenav bar must go below this comment
+    {
+      type: "collapse",
+      name: "invisibles",
+      display: false,
+      key: "invisibles",
+      icon: <Icon fontSize="medium">content_paste</Icon>,
+      collapse: [
+        {
+          name: "Sign In",
+          key: "sign-in",
+          collapse: [
+            {
+              name: "Basic",
+              key: "basic",
+              route: "/authentication/sign-in",
+              component: <SignInBasic />,
+            },
+          ],
+        },
+        {
+          name: "Reset Password",
+          key: "reset-password",
+          collapse: [
+            {
+              name: "Cover",
+              key: "cover",
+              route: "/authentication/reset-password",
+              component: <ResetCover />,
+            },
+          ],
+        },
+        {
+          protect: true,
+          name: "School details",
+          key: "schools-details",
+          route: "/sis/schools/school-details",
+          component: <SchoolDetails />,
+        },
+      ],
+    },
+  ];
+};
 export default routes;

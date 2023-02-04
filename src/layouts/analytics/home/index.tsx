@@ -49,9 +49,6 @@ import ChannelsChart from "./components/ChannelsChart";
 import defaultLineChartData from "./data/defaultLineChartData";
 
 function Analytics(): JSX.Element {
-  // DefaultStatisticsCard state for the dropdown value
-  const [salesDropdownValue, setSalesDropdownValue] = useState<string>("6 May - 7 May");
-
   return (
     <DashboardLayout>
       <DashboardNavbar />

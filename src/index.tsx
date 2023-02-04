@@ -18,12 +18,20 @@ import { BrowserRouter } from "react-router-dom";
 import App from "App";
 
 import { MaterialUIControllerProvider } from "context";
+import { AuthProvider } from "./context/AuthProvider";
+import axios from "axios";
 
-ReactDOM.render(
+axios.defaults.withCredentials = true;
+
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("root");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
   <BrowserRouter>
     <MaterialUIControllerProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </MaterialUIControllerProvider>
-  </BrowserRouter>,
-  document.getElementById("root")
+  </BrowserRouter>
 );

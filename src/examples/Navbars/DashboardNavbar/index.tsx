@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 
 // react-router components
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // @material-ui core components
 import AppBar from "@mui/material/AppBar";
@@ -51,6 +51,9 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
+import useAuth from "hooks/useAuth";
+import axios from "axios";
+import { Tooltip } from "@mui/material";
 
 // Declaring prop types for DashboardNavbar
 interface Props {
@@ -60,6 +63,7 @@ interface Props {
 }
 
 function DashboardNavbar({ absolute, light, isMini }: Props): JSX.Element {
+  const { setAuth, setTokenExpired } = useAuth();
   const [navbarType, setNavbarType] = useState<
     "fixed" | "absolute" | "relative" | "static" | "sticky"
   >();
@@ -137,6 +141,17 @@ function DashboardNavbar({ absolute, light, isMini }: Props): JSX.Element {
     },
   });
 
+  const logout = () => {
+    setAuth({});
+    setTokenExpired(true);
+    localStorage.clear();
+    try {
+      axios.get(`${process.env.REACT_APP_PUBLIC_SERVER_ENDPOINT}/v1/edu/auth/logout`);
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+
   return (
     <AppBar
       position={absolute ? "absolute" : navbarType}
@@ -158,11 +173,13 @@ function DashboardNavbar({ absolute, light, isMini }: Props): JSX.Element {
               <MDInput label="Search here" />
             </MDBox>
             <MDBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in/basic">
-                <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <Icon sx={iconsStyle}>account_circle</Icon>
+              <Tooltip title="Logout" placement="bottom" arrow>
+                <IconButton sx={navbarIconButton} size="small" onClick={logout} disableRipple>
+                  <Icon sx={iconsStyle} style={{ color: "#D81B60" }}>
+                    exit_to_app
+                  </Icon>
                 </IconButton>
-              </Link>
+              </Tooltip>
               <IconButton
                 size="small"
                 disableRipple
@@ -174,25 +191,30 @@ function DashboardNavbar({ absolute, light, isMini }: Props): JSX.Element {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-              <IconButton
-                size="small"
-                disableRipple
-                color="inherit"
-                sx={navbarIconButton}
-                onClick={handleConfiguratorOpen}
-              >
-                <Icon sx={iconsStyle}>settings</Icon>
-              </IconButton>
-              <IconButton
-                size="small"
-                color="inherit"
-                sx={navbarIconButton}
-                onClick={handleOpenMenu}
-              >
-                <MDBadge badgeContent={9} color="error" size="xs" circular>
-                  <Icon sx={iconsStyle}>notifications</Icon>
-                </MDBadge>
-              </IconButton>
+              <Tooltip title="Settings" placement="bottom" arrow>
+                <IconButton
+                  size="small"
+                  disableRipple
+                  color="inherit"
+                  sx={navbarIconButton}
+                  onClick={handleConfiguratorOpen}
+                >
+                  <Icon sx={iconsStyle}>settings</Icon>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Notifications" placement="bottom" arrow>
+                <IconButton
+                  size="small"
+                  color="inherit"
+                  sx={navbarIconButton}
+                  onClick={handleOpenMenu}
+                >
+                  <MDBadge badgeContent={9} color="error" size="xs" circular>
+                    <Icon sx={iconsStyle}>notifications</Icon>
+                  </MDBadge>
+                </IconButton>
+              </Tooltip>
+
               {renderMenu()}
             </MDBox>
           </MDBox>

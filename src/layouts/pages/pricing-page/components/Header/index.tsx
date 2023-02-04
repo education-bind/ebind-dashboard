@@ -30,9 +30,6 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 PRO React TS examples components
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 
-// Material Dashboard 2 PRO React page layout routes
-import pageRoutes from "page.routes";
-
 // Images
 import bgImage from "assets/images/bg-pricing.jpg";
 
@@ -46,17 +43,6 @@ interface Props {
 function Header({ tabValue, tabHandler, children }: Props): JSX.Element {
   return (
     <>
-      <DefaultNavbar
-        routes={pageRoutes}
-        action={{
-          type: "external",
-          route: "https://creative-tim.com/product/material-dashboard-2-pro-react-ts",
-          label: "buy now",
-          color: "light",
-        }}
-        transparent
-        light
-      />
       <MDBox
         position="relative"
         minHeight="50vh"

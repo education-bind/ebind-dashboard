@@ -19,13 +19,8 @@ import { useState, useEffect } from "react";
 import Divider from "@mui/material/Divider";
 import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 import { Theme } from "@mui/material/styles";
-
-// @mui icons
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
 
 // Material Dashboard 2 PRO React TS components
 import MDBox from "components/MDBox";
@@ -72,6 +67,31 @@ function Configurator(): JSX.Element {
 
   // Use the useEffect hook to change the button state for the sidenav type based on window size.
   useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    const foundUser = loggedInUser ? JSON.parse(loggedInUser) : null;
+    if (foundUser) {
+      const sideNavColor = foundUser?.sidenavColor || "info";
+      setSidenavColor(dispatch, sideNavColor);
+      setFixedNavbar(dispatch, foundUser.fixedNavBar);
+      setMiniSidenav(dispatch, foundUser.miniSidenav);
+      setDarkMode(dispatch, foundUser.darkMode);
+
+      switch (foundUser.sidenavType) {
+        case "transparent":
+          setTransparentSidenav(dispatch, true);
+          setWhiteSidenav(dispatch, false);
+          break;
+        case "white":
+          setWhiteSidenav(dispatch, true);
+          setTransparentSidenav(dispatch, false);
+          break;
+        case "dark":
+          setWhiteSidenav(dispatch, false);
+          setTransparentSidenav(dispatch, false);
+          break;
+        default:
+      }
+    }
     // A function that sets the disabled state of the buttons for the sidenav type.
     function handleDisabled() {
       return window.innerWidth > 1200 ? setDisabled(false) : setDisabled(true);

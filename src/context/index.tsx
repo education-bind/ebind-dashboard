@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { createContext, ReactNode, useContext, useMemo, useReducer } from "react";
+import { createContext, ReactNode, useContext, useEffect, useMemo, useReducer } from "react";
 
 const MaterialUI = createContext<any>(null);
 
@@ -100,13 +100,13 @@ function MaterialUIControllerProvider({ children }: { children: ReactNode }): JS
     miniSidenav: false,
     transparentSidenav: false,
     whiteSidenav: false,
-    sidenavColor: "info",
     transparentNavbar: true,
-    fixedNavbar: true,
     openConfigurator: false,
     direction: "ltr",
     layout: "dashboard",
+    sidenavColor: "info",
     darkMode: false,
+    fixedNavbar: false,
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);

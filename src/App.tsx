@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect, useMemo, JSXElementConstructor, Key, ReactElement } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -25,6 +25,7 @@ import Icon from "@mui/material/Icon";
 
 // components
 import MDBox from "components/MDBox";
+import RequireAuth from "./components/Authentication";
 
 // examples
 import Sidenav from "examples/Sidenav";
@@ -44,7 +45,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // routes
-import routes from "routes";
+import routesFunction from "routes";
 
 // contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -68,6 +69,7 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+  const routes = routesFunction();
 
   // Cache for the rtl
   useMemo(() => {
@@ -117,12 +119,20 @@ export default function App() {
         route: string;
         component: ReactElement<any, string | JSXElementConstructor<any>>;
         key: Key;
+        protect: Boolean;
       }) => {
         if (route.collapse) {
           return getRoutes(route.collapse);
         }
 
         if (route.route) {
+          if (route.protect) {
+            return (
+              <Route element={<RequireAuth />}>
+                <Route path={route.route} element={route.component} key={route.key} />;
+              </Route>
+            );
+          }
           return <Route path={route.route} element={route.component} key={route.key} />;
         }
 

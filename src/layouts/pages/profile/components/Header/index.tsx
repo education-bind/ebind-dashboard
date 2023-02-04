@@ -32,12 +32,15 @@ import MDAvatar from "components/MDAvatar";
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
 import backgroundImage from "assets/images/bg-profile.jpeg";
+
+//hooks
+import useAuth from "../../../../../hooks/useAuth";
 
 function Header({ children }: { children?: ReactNode }): JSX.Element {
   const [tabsOrientation, setTabsOrientation] = useState<"horizontal" | "vertical">("horizontal");
   const [tabValue, setTabValue] = useState(0);
+  const { auth } = useAuth();
 
   useEffect(() => {
     // A function that sets the orientation state of the tabs.
@@ -91,15 +94,16 @@ function Header({ children }: { children?: ReactNode }): JSX.Element {
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={burceMars} alt="profile-image" size="xl" shadow="sm" />
+            <MDAvatar src={auth?.user?.profileImage} alt="profile-image" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
               <MDTypography variant="h5" fontWeight="medium">
-                Richard Davis
+                {auth?.user?.firstName} {auth?.user?.lastName}
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                CEO / Co-Founder
+                {auth?.user?.moreInfo?.role.split("_").join(" ").charAt(0).toUpperCase() +
+                  auth?.user?.moreInfo?.role.split("_").join(" ").slice(1)}
               </MDTypography>
             </MDBox>
           </Grid>

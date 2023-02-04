@@ -23,11 +23,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // Material Dashboard 2 PRO React TS examples components
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import PageLayout from "examples/LayoutContainers/PageLayout";
-
-// Material Dashboard 2 PRO React page layout routes
-import pageRoutes from "page.routes";
 
 // Material Dashboard 2 PRO React context
 import { useMaterialUIController } from "context";
@@ -53,15 +49,6 @@ function IllustrationLayout({
 
   return (
     <PageLayout background="white">
-      <DefaultNavbar
-        routes={pageRoutes}
-        action={{
-          type: "external",
-          route: "https://creative-tim.com/product/material-dashboard-2-pro-react-ts",
-          label: "buy now",
-          color: "info",
-        }}
-      />
       <Grid
         container
         sx={{
@@ -69,15 +56,21 @@ function IllustrationLayout({
             darkMode ? background.default : white.main,
         }}
       >
-        <Grid item xs={12} lg={6}>
+        <Grid item xs={12} lg={6} sx={{}}>
           <MDBox
             display={{ xs: "none", lg: "flex" }}
             width="calc(100% - 2rem)"
             height="calc(100vh - 2rem)"
             borderRadius="lg"
             ml={2}
+            p={2}
             mt={2}
-            sx={{ backgroundImage: `url(${illustration})` }}
+            sx={{
+              backgroundImage: `url(${illustration})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+            }}
           />
         </Grid>
         <Grid item xs={11} sm={8} md={6} lg={4} xl={3} sx={{ mx: "auto" }}>

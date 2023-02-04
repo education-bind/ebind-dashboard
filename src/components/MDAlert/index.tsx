@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 
 // @mui material components
 import Fade from "@mui/material/Fade";
@@ -36,7 +36,10 @@ interface Props {
 function MDAlert({ color, dismissible, children, ...rest }: Props): JSX.Element | null {
   const [alertStatus, setAlertStatus] = useState("mount");
 
-  const handleAlertStatus = () => setAlertStatus("fadeOut");
+  const handleAlertStatus = () => {
+    setAlertStatus("fadeOut");
+    setTimeout(() => setAlertStatus("mount"), 6000);
+  };
 
   // The base template for the alert
   const alertTemplate: any = (mount: boolean = true) => (
